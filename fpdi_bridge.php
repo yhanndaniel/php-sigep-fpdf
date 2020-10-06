@@ -17,7 +17,7 @@
  */
 
 if (!class_exists('FPDFSigep')) {
-    require_once 'fpdf.php';
+    require_once 'fpdf1.php';
 }
 
 if (!class_exists('TCPDFSigep', false)) {

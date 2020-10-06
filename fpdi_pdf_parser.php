@@ -25,35 +25,35 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
      * @var array
      */
     protected $_pages;
-    
+
     /**
      * Page count
      *
      * @var integer
      */
     protected $_pageCount;
-    
+
     /**
      * Current page number
      *
      * @var integer
      */
     public $pageNo;
-    
+
     /**
      * PDF version of imported document
      *
      * @var string
      */
     public $_pdfVersion;
-    
+
     /**
      * Available BoxTypes
      *
      * @var array
      */
     public $availableBoxes = array('/MediaBox', '/CropBox', '/BleedBox', '/TrimBox', '/ArtBox');
-        
+
     /**
      * The constructor.
      *
@@ -68,11 +68,11 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
 
         // Read pages
         $this->_readPages($pages, $this->_pages);
-        
+
         // count pages;
         $this->_pageCount = count($this->_pages);
     }
-    
+
     /**
      * Get page count from source file.
      *
@@ -99,7 +99,7 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
 
         $this->pageNo = $pageNo;
     }
-    
+
     /**
      * Get page-resources from current page
      *
@@ -109,7 +109,7 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
     {
         return $this->_getPageResources($this->_pages[$this->pageNo]);
     }
-    
+
     /**
      * Get page-resources from a /Page dictionary.
      *
@@ -151,14 +151,14 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
     public function getContent()
     {
         $buffer = '';
-        
+
         if (isset($this->_pages[$this->pageNo][1][1]['/Contents'])) {
             $contents = $this->_getPageContent($this->_pages[$this->pageNo][1][1]['/Contents']);
             foreach ($contents AS $tmpContent) {
                 $buffer .= $this->_unFilterStream($tmpContent) . ' ';
             }
         }
-        
+
         return $buffer;
     }
 
@@ -171,7 +171,7 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
     protected function _getPageContent($contentRef)
     {
         $contents = array();
-        
+
         if ($contentRef[0] == pdf_parserSigep::TYPE_OBJREF) {
             $content = $this->resolveObject($contentRef);
             if ($content[1][0] == pdf_parserSigep::TYPE_ARRAY) {
@@ -206,12 +206,12 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
         if (isset($page[1][1][$boxIndex])) {
             $box = $page[1][1][$boxIndex];
         }
-        
+
         if (!is_null($box) && $box[0] == pdf_parserSigep::TYPE_OBJREF) {
             $tmp_box = $this->resolveObject($box);
             $box = $tmp_box[1];
         }
-            
+
         if (!is_null($box) && $box[0] == pdf_parserSigep::TYPE_ARRAY) {
             $b = $box[1];
             return array(
@@ -233,7 +233,7 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
 
     /**
      * Get all page boundary boxes by page number
-     * 
+     *
      * @param int $pageNo The page number
      * @param float $k Scale factor from user space units to points
      * @return array
@@ -247,7 +247,7 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
 
         return $this->_getPageBoxes($this->_pages[$pageNo - 1], $k);
     }
-    
+
     /**
      * Get all boxes from /Page dictionary
      *
@@ -305,8 +305,10 @@ class fpdi_pdf_parserSigep extends pdf_parserSigep
         }
 
         $res = $this->_getPageRotation($obj[1][1]['/Parent']);
-        if ($res[0] == pdf_parserSigep::TYPE_OBJECT)
-            return $res[1];
+        if(isset($res[0])){
+            if ($res[0] == pdf_parserSigep::TYPE_OBJECT)
+                return $res[1];
+        }
 
         return $res;
     }
