@@ -1,11 +1,11 @@
 {
-    "name": "stavarengo/php-sigep-fpdf",
-    "description": "Unofficial FPDF library - Cópia do FPDF 1.7 usado pelo projeto stavarengo/php-sigep.",
+    "name": "yhanndaniel/php-sigep-fpdf",
+    "description": "Unofficial FPDF library - Cópia do FPDF 1.7 usado pelo projeto yhanndaniel/php-sigep.",
     "license": "MIT",
     "authors": [
         {
-            "name": "Stavarengo",
-            "email": "faelsta@gmail.com"
+            "name": "Yhann Daniel",
+            "email": "yhanndaniel@gmail.com"
         }
     ],
     "require": {},
